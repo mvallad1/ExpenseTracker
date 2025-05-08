@@ -1,16 +1,23 @@
 services:
   flask-backend:
     build: ./backend
-    ports: ["5000:5000"]
-    depends_on: [mysql, mongo]
-  
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysql
+    env_file:
+      - ./backend/.env
+
   mysql:
     image: mysql:8
-    ports: ["3306:3306"]
+    restart: always
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_DATABASE: expense_db
       MYSQL_ROOT_PASSWORD: root
 
   mongo:
     image: mongo
-    ports: ["27017:27017"]
+    ports:
+      - "27017:27017"
